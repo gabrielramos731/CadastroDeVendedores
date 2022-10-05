@@ -10,10 +10,11 @@ typedef struct{
   float totalVendido;
 } vendedor;
 
-int cadastroNovos (vendedor *cadastroVendedores, int quantTotal);
+int cadastroNovos (vendedor *cadastroVendedores);
+void listarVendedores (vendedor *cadastroVendedores, int n);
 
 int main(void) {
-  int opcao=0,quantTotal=0;
+  int opcao = 0,quantTotal = 0, n = 0;
   vendedor *cadastroVendedores;
 
   cadastroVendedores = (vendedor *) malloc (1*sizeof(vendedor));
@@ -35,10 +36,12 @@ int main(void) {
     scanf("%d", &opcao);
     
     switch(opcao){
-      case 1:
-      cadastroNovos(cadastroVendedores, quantTotal);
-      // case 2:
-      // listarVendedores(cadastroVendedores, quantTotal);
+        case 1:
+          n = cadastroNovos(cadastroVendedores);
+          break;
+        case 2:
+          listarVendedores(cadastroVendedores, &quantTotal);
+          break;
     }
     
   }while(opcao!=0);
@@ -46,9 +49,9 @@ int main(void) {
   return 0;
 }
 
-int cadastroNovos (vendedor *cadastroVendedores, int quantTotal){
-  int quantCadastros,i=0;
-  
+int  cadastroNovos (vendedor *cadastroVendedores){
+  int quantCadastros,i;
+
   printf("Quantos vendedores deseja cadastrar?: ");
   scanf("%d",&quantCadastros);
 
@@ -63,15 +66,23 @@ int cadastroNovos (vendedor *cadastroVendedores, int quantTotal){
     printf("Informe a data de nascimento do vendedor, no formato dd/mm/aaaa\n");
     scanf("%s%*c", cadastroVendedores[i].dataDeNascimento);
     printf("Informe o salario base do vendedor: ");
-    scanf("%f%*c",&cadastroVendedores[i].salarioBase);
+    scanf("%f%*c", &cadastroVendedores[i].salarioBase);
     printf("Informe o total de vendas do vendedor: ");
-    scanf("%f%*c",&cadastroVendedores[i].totalVendido);
+    scanf("%f%*c", &cadastroVendedores[i].totalVendido);
     system("cls");
   }
-  quantTotal = quantTotal + quantCadastros;
-  return quantTotal;
+  return quantCadastros;
 }
 
-// void listarVendedores (vendedor *cadastrovendedores, int quantTotal){
-
-// }
+ void listarVendedores (vendedor *cadastroVendedores, int n){
+    int i;
+    printf("!%d!", n);
+    for(i=0; i<n; i++){
+        fflush(stdin);
+        printf("\n\nNome: %s", cadastroVendedores[i].nome);
+        printf("\nCPF: %s", cadastroVendedores[i].cpf);
+        printf("\nData de nascimento: %s", cadastroVendedores[i].dataDeNascimento);
+        printf("\nSalario base: %.2f", cadastroVendedores[i].salarioBase);
+        printf("\ntotal vendido: %.2f\n", cadastroVendedores[i].totalVendido);
+    }
+}
