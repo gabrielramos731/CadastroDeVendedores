@@ -10,11 +10,12 @@ typedef struct{
   float totalVendido;
 } vendedor;
 
-int cadastroNovos (vendedor *cadastroVendedores, int *quantTotal);
+int cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j);
 void listarVendedores (vendedor *cadastroVendedores, int quantTotal);
+void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal);
 
 int main(void) {
-  int opcao = 0,quantTotal = 0;
+  int opcao = 0,quantTotal = 0, j = 0;
   vendedor *cadastroVendedores;
 
   cadastroVendedores = (vendedor *) malloc (1*sizeof(vendedor));
@@ -26,7 +27,6 @@ int main(void) {
   do {
     printf("--------------------MENU--------------------");
     printf("\nEscolha uma opcao:");
-
     printf("\n1 - Cadastrar Novos Vendedores.");
     printf("\n2 - Mostrar os dados de todos os Vendedores Cadastrados.");
     printf("\n3 - Calcular comissoes.");
@@ -37,27 +37,29 @@ int main(void) {
     
     switch(opcao){
         case 1:
-          cadastroVendedores = cadastroNovos(cadastroVendedores, &quantTotal);
+          cadastroVendedores = cadastroNovos(cadastroVendedores, &quantTotal, &j);
           break;
         case 2:
           listarVendedores(cadastroVendedores, quantTotal);
           break;
+        case 3:
+          calcularComissoes(cadastroVendedores, quantTotal);
     }
-    
   }while(opcao!=0);
   
   return 0;
 }
 
-int  cadastroNovos (vendedor *cadastroVendedores, int *quantTotal){
-  int quantCadastros,i;
+int  cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j){
+  int quantCadastros, i;
 
   printf("Quantos vendedores deseja cadastrar?: ");
   scanf("%d",&quantCadastros);
+  *quantTotal = *quantTotal + quantCadastros;
 
-  cadastroVendedores = (vendedor *) realloc(cadastroVendedores, quantCadastros * sizeof(vendedor));
+  cadastroVendedores = (vendedor *) realloc(cadastroVendedores, *quantTotal * sizeof(vendedor));
 
-  for(i=0; i<quantCadastros; i++){
+  for(i=*j; i<(*quantTotal); i++){
     printf("Informe o nome do funcionario:");
     fflush(stdin);
     scanf ("%[^\n]%*c", cadastroVendedores[i].nome);
@@ -75,17 +77,16 @@ int  cadastroNovos (vendedor *cadastroVendedores, int *quantTotal){
     scanf("%f%*c", &cadastroVendedores[i].totalVendido);
     fflush(stdin);
     system("cls");
+    *j+=1;
   }
 
-  *quantTotal = *quantTotal + quantCadastros;
   return cadastroVendedores;
 }
 
  void listarVendedores (vendedor *cadastroVendedores, int quantTotal){
-
   int i;
+
   for(i=0; i<quantTotal; i++){
-   fflush(stdin);
    printf("\n\nNome: %s", cadastroVendedores[i].nome);
    printf("\nCPF: %s", cadastroVendedores[i].cpf);
    printf("\nData de nascimento: %s", cadastroVendedores[i].dataDeNascimento);
@@ -93,3 +94,14 @@ int  cadastroNovos (vendedor *cadastroVendedores, int *quantTotal){
    printf("\ntotal vendido: %.2f\n", cadastroVendedores[i].totalVendido);
   }
 }
+
+void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal){
+
+  int i;
+  
+  for(i=0; i<quantTotal; i++){
+    printf("\n%s R$ ", cadastroVendedores[i].nome);
+    printf("%.2f\n\n", cadastroVendedores[i].totalVendido*0.03);
+  }
+}
+
