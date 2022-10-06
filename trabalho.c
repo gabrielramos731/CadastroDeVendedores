@@ -10,11 +10,11 @@ typedef struct{
   float totalVendido;
 } vendedor;
 
-int cadastroNovos (vendedor *cadastroVendedores);
-void listarVendedores (vendedor *cadastroVendedores, int n);
+int cadastroNovos (vendedor *cadastroVendedores, int *quantTotal);
+void listarVendedores (vendedor *cadastroVendedores, int quantTotal);
 
 int main(void) {
-  int opcao = 0,quantTotal = 0, n = 0;
+  int opcao = 0,quantTotal = 0;
   vendedor *cadastroVendedores;
 
   cadastroVendedores = (vendedor *) malloc (1*sizeof(vendedor));
@@ -22,7 +22,7 @@ int main(void) {
     printf("ERRO DE ALOCACAO!");
     exit(1);
   }
-  
+
   do {
     printf("--------------------MENU--------------------");
     printf("\nEscolha uma opcao:");
@@ -37,10 +37,10 @@ int main(void) {
     
     switch(opcao){
         case 1:
-          n = cadastroNovos(cadastroVendedores);
+          cadastroVendedores = cadastroNovos(cadastroVendedores, &quantTotal);
           break;
         case 2:
-          listarVendedores(cadastroVendedores, &quantTotal);
+          listarVendedores(cadastroVendedores, quantTotal);
           break;
     }
     
@@ -49,7 +49,7 @@ int main(void) {
   return 0;
 }
 
-int  cadastroNovos (vendedor *cadastroVendedores){
+int  cadastroNovos (vendedor *cadastroVendedores, int *quantTotal){
   int quantCadastros,i;
 
   printf("Quantos vendedores deseja cadastrar?: ");
@@ -60,29 +60,36 @@ int  cadastroNovos (vendedor *cadastroVendedores){
   for(i=0; i<quantCadastros; i++){
     printf("Informe o nome do funcionario:");
     fflush(stdin);
-    scanf ( "%[^\n]%*c", cadastroVendedores[i].nome);
+    scanf ("%[^\n]%*c", cadastroVendedores[i].nome);
+    fflush(stdin);
     printf("Informe o cpf do vendedor:");
     scanf("%s%*c", cadastroVendedores[i].cpf);
+    fflush(stdin);
     printf("Informe a data de nascimento do vendedor, no formato dd/mm/aaaa\n");
     scanf("%s%*c", cadastroVendedores[i].dataDeNascimento);
+    fflush(stdin);
     printf("Informe o salario base do vendedor: ");
     scanf("%f%*c", &cadastroVendedores[i].salarioBase);
+    fflush(stdin);
     printf("Informe o total de vendas do vendedor: ");
     scanf("%f%*c", &cadastroVendedores[i].totalVendido);
+    fflush(stdin);
     system("cls");
   }
-  return quantCadastros;
+
+  *quantTotal = *quantTotal + quantCadastros;
+  return cadastroVendedores;
 }
 
- void listarVendedores (vendedor *cadastroVendedores, int n){
-    int i;
-    printf("!%d!", n);
-    for(i=0; i<n; i++){
-        fflush(stdin);
-        printf("\n\nNome: %s", cadastroVendedores[i].nome);
-        printf("\nCPF: %s", cadastroVendedores[i].cpf);
-        printf("\nData de nascimento: %s", cadastroVendedores[i].dataDeNascimento);
-        printf("\nSalario base: %.2f", cadastroVendedores[i].salarioBase);
-        printf("\ntotal vendido: %.2f\n", cadastroVendedores[i].totalVendido);
-    }
+ void listarVendedores (vendedor *cadastroVendedores, int quantTotal){
+
+  int i;
+  for(i=0; i<quantTotal; i++){
+   fflush(stdin);
+   printf("\n\nNome: %s", cadastroVendedores[i].nome);
+   printf("\nCPF: %s", cadastroVendedores[i].cpf);
+   printf("\nData de nascimento: %s", cadastroVendedores[i].dataDeNascimento);
+   printf("\nSalario base: %.2f", cadastroVendedores[i].salarioBase);
+   printf("\ntotal vendido: %.2f\n", cadastroVendedores[i].totalVendido);
+  }
 }
