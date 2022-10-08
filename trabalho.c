@@ -10,14 +10,14 @@ typedef struct{
   float totalVendido;
 } vendedor;
 
-int cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j);
-void ordenaVendedores(vendedor *cadastroVendedores, vendedor auxiliar, int quantTotal);
+vendedor * cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j);
+void ordenaVendedores(vendedor *cadastroVendedores, int quantTotal);
 void listarVendedores (vendedor *cadastroVendedores, int quantTotal);
 void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal);
 
 int main(void) {
-  int opcao = 0,quantTotal = 0, j = 0;
-  vendedor *cadastroVendedores, auxiliar;
+  int opcao = 0, quantTotal = 0, j = 0;
+  vendedor *cadastroVendedores;
 
   cadastroVendedores = (vendedor *) malloc (1*sizeof(vendedor));
   if(cadastroVendedores == NULL){
@@ -39,7 +39,8 @@ int main(void) {
     switch(opcao){
       case 1:
         cadastroVendedores = cadastroNovos(cadastroVendedores, &quantTotal, &j);
-        ordenaVendedores(cadastroVendedores, auxiliar, quantTotal);
+        printf("\n%d\n", quantTotal);
+        ordenaVendedores(cadastroVendedores, quantTotal);
         break;
       case 2:
         listarVendedores(cadastroVendedores, quantTotal);
@@ -52,7 +53,7 @@ int main(void) {
   return 0;
 }
 
-int  cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j){
+vendedor * cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j){
   int quantCadastros, i;
 
   printf("Quantos vendedores deseja cadastrar?: ");
@@ -85,16 +86,16 @@ int  cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j){
   return cadastroVendedores;
 }
 
-void ordenaVendedores(vendedor *cadastroVendedores, vendedor auxiliar, int quantTotal){
+void ordenaVendedores(vendedor *cadastroVendedores, int quantTotal){
   int i, j;
+  vendedor auxiliar;
 
-  for(i=0; i<quantTotal-1; i++){
-    for(j=i+1; j<quantTotal; j++){
-      if(strcmp(cadastroVendedores[i].nome, cadastroVendedores[j].nome) < 0)
-        auxiliar = cadastroVendedores[i];
-        cadastroVendedores[i] = cadastroVendedores[j];
-        cadastroVendedores[j] = auxiliar;
-    }
+  for(i=1; i<quantTotal; i++){
+    auxiliar = cadastroVendedores[i];
+      for(j=i; (j>0) && (strcmp(auxiliar.nome, cadastroVendedores[j-1].nome)<0); j--){
+        cadastroVendedores[j] = cadastroVendedores[j-1];
+      }
+      cadastroVendedores[j] = auxiliar;
   }
 }
 
