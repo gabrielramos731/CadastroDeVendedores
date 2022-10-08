@@ -11,12 +11,13 @@ typedef struct{
 } vendedor;
 
 int cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j);
+void ordenaVendedores(vendedor *cadastroVendedores, vendedor auxiliar, int quantTotal);
 void listarVendedores (vendedor *cadastroVendedores, int quantTotal);
 void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal);
 
 int main(void) {
   int opcao = 0,quantTotal = 0, j = 0;
-  vendedor *cadastroVendedores;
+  vendedor *cadastroVendedores, auxiliar;
 
   cadastroVendedores = (vendedor *) malloc (1*sizeof(vendedor));
   if(cadastroVendedores == NULL){
@@ -36,14 +37,15 @@ int main(void) {
     scanf("%d", &opcao);
     
     switch(opcao){
-        case 1:
-          cadastroVendedores = cadastroNovos(cadastroVendedores, &quantTotal, &j);
-          break;
-        case 2:
-          listarVendedores(cadastroVendedores, quantTotal);
-          break;
-        case 3:
-          calcularComissoes(cadastroVendedores, quantTotal);
+      case 1:
+        cadastroVendedores = cadastroNovos(cadastroVendedores, &quantTotal, &j);
+        ordenaVendedores(cadastroVendedores, auxiliar, quantTotal);
+        break;
+      case 2:
+        listarVendedores(cadastroVendedores, quantTotal);
+        break;
+      case 3:
+        calcularComissoes(cadastroVendedores, quantTotal);
     }
   }while(opcao!=0);
   
@@ -79,8 +81,21 @@ int  cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j){
     system("cls");
     *j+=1;
   }
-
+  
   return cadastroVendedores;
+}
+
+void ordenaVendedores(vendedor *cadastroVendedores, vendedor auxiliar, int quantTotal){
+  int i, j;
+
+  for(i=0; i<quantTotal-1; i++){
+    for(j=i+1; j<quantTotal; j++){
+      if(strcmp(cadastroVendedores[i].nome, cadastroVendedores[j].nome) < 0)
+        auxiliar = cadastroVendedores[i];
+        cadastroVendedores[i] = cadastroVendedores[j];
+        cadastroVendedores[j] = auxiliar;
+    }
+  }
 }
 
  void listarVendedores (vendedor *cadastroVendedores, int quantTotal){
@@ -104,4 +119,3 @@ void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal){
     printf("%.2f\n\n", cadastroVendedores[i].totalVendido*0.03);
   }
 }
-
