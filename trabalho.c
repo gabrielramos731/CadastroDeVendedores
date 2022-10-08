@@ -47,6 +47,11 @@ int main(void) {
         break;
       case 3:
         calcularComissoes(cadastroVendedores, quantTotal);
+        break;
+      case 4:
+        
+      default:
+        printf("Opcao inexistente!");
     }
   }while(opcao!=0);
   
@@ -120,3 +125,4 @@ void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal){
     printf("%.2f\n\n", cadastroVendedores[i].totalVendido*0.03);
   }
 }
+
