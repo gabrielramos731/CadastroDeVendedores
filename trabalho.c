@@ -6,7 +6,7 @@ typedef struct{
   char nome[30];
   char cpf[11];
   char dataDeNascimento [10];
-  float salarioBase ;
+  float salarioBase;
   float totalVendido;
 } vendedor;
 
@@ -56,14 +56,17 @@ int main(void) {
         scanf ("%[^\n]%*c", nomeBuscado);
         indiceBusca = buscarVendedor(cadastroVendedores, quantTotal, nomeBuscado);
         if(indiceBusca == -1){
-          printf("Vendedor nao cadastrado!\n");
+          printf("\nVendedor nao cadastrado!\n\n");
           break;
         }
-        printf("\n\nNome: %s", cadastroVendedores[indiceBusca].nome);
+        printf("\nNome: %s", cadastroVendedores[indiceBusca].nome);
         printf("\nCPF: %s", cadastroVendedores[indiceBusca].cpf);
         printf("\nData de nascimento: %s", cadastroVendedores[indiceBusca].dataDeNascimento);
         printf("\nSalario base: %.2f", cadastroVendedores[indiceBusca].salarioBase);
-        printf("\ntotal vendido: %.2f\n", cadastroVendedores[indiceBusca].totalVendido);
+        printf("\ntotal vendido: %.2f\n\n", cadastroVendedores[indiceBusca].totalVendido);
+        break;
+      case 0:
+        printf("\nEncerrando processo!");
         break;
       default:
         printf("Opcao invalida!\n");
@@ -119,7 +122,7 @@ void ordenaVendedores(vendedor *cadastroVendedores, int quantTotal){
   }
 }
 
- void listarVendedores (vendedor *cadastroVendedores, int quantTotal){
+void listarVendedores (vendedor *cadastroVendedores, int quantTotal){
   int i;
 
   for(i=0; i<quantTotal; i++){
@@ -144,16 +147,19 @@ void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal){
 int buscarVendedor(vendedor *cadastroVendedores, int quantTotal, char *nomeBuscado){
   int meio, ini = 0;
 
-  meio = quantTotal+ini / 2;
-  while(ini<quantTotal){
-    meio = (ini+quantTotal)/2;
+  meio = (ini+quantTotal+1)/2;
+  while(ini<quantTotal+1){
+    meio = (ini+quantTotal+1)/2;
     if(strcmp(cadastroVendedores[meio].nome, nomeBuscado) == 0){
       return meio;
     }
     else if(strcmp(cadastroVendedores[meio].nome, nomeBuscado) < 0)
       ini = meio+1;
-    else if(strcmp(cadastroVendedores[meio].nome, nomeBuscado) > 0)
+    else if(strcmp(cadastroVendedores[meio].nome, nomeBuscado) > 0){
       quantTotal = meio-1;
+      printf("%d", meio);
+    }
   }
+  printf("%d", meio);
   return -1;
 }
