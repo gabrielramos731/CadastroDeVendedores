@@ -14,9 +14,11 @@ vendedor * cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j)
 void ordenaVendedores(vendedor *cadastroVendedores, int quantTotal);
 void listarVendedores (vendedor *cadastroVendedores, int quantTotal);
 void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal);
+int buscarVendedor(vendedor *cadastroVendedores, int quantTotal, char *nomeBuscado);
 
 int main(void) {
-  int opcao = 0, quantTotal = 0, j = 0;
+  int opcao = 0, quantTotal = 0, j = 0, indiceBusca;
+  char nomeBuscado[30];
   vendedor *cadastroVendedores;
 
   cadastroVendedores = (vendedor *) malloc (1*sizeof(vendedor));
@@ -49,9 +51,22 @@ int main(void) {
         calcularComissoes(cadastroVendedores, quantTotal);
         break;
       case 4:
-        
+        printf("Digite o nome do vendedor que deseja buscar: ");
+        fflush(stdin);
+        scanf ("%[^\n]%*c", nomeBuscado);
+        indiceBusca = buscarVendedor(cadastroVendedores, quantTotal, nomeBuscado);
+        if(indiceBusca == -1){
+          printf("Vendedor nao cadastrado!\n");
+          break;
+        }
+        printf("\n\nNome: %s", cadastroVendedores[indiceBusca].nome);
+        printf("\nCPF: %s", cadastroVendedores[indiceBusca].cpf);
+        printf("\nData de nascimento: %s", cadastroVendedores[indiceBusca].dataDeNascimento);
+        printf("\nSalario base: %.2f", cadastroVendedores[indiceBusca].salarioBase);
+        printf("\ntotal vendido: %.2f\n", cadastroVendedores[indiceBusca].totalVendido);
+        break;
       default:
-        printf("Opcao inexistente!");
+        printf("Opcao invalida!\n");
     }
   }while(opcao!=0);
   
@@ -126,3 +141,19 @@ void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal){
   }
 }
 
+int buscarVendedor(vendedor *cadastroVendedores, int quantTotal, char *nomeBuscado){
+  int meio, ini = 0;
+
+  meio = quantTotal+ini / 2;
+  while(ini<quantTotal){
+    meio = (ini+quantTotal)/2;
+    if(strcmp(cadastroVendedores[meio].nome, nomeBuscado) == 0){
+      return meio;
+    }
+    else if(strcmp(cadastroVendedores[meio].nome, nomeBuscado) < 0)
+      ini = meio+1;
+    else if(strcmp(cadastroVendedores[meio].nome, nomeBuscado) > 0)
+      quantTotal = meio-1;
+  }
+  return -1;
+}
