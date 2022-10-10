@@ -80,7 +80,8 @@ vendedor * cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j)
   int quantCadastros, i;
 
   printf("Quantos vendedores deseja cadastrar?: ");
-  scanf("%d",&quantCadastros);
+  scanf("%d%*c",&quantCadastros);
+  fflush(stdin);
   *quantTotal = *quantTotal + quantCadastros;
 
   cadastroVendedores = (vendedor *) realloc(cadastroVendedores, *quantTotal * sizeof(vendedor));
@@ -147,9 +148,9 @@ void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal){
 int buscarVendedor(vendedor *cadastroVendedores, int quantTotal, char *nomeBuscado){
   int meio, ini = 0;
 
-  meio = (ini+quantTotal+1)/2;
+  meio = (ini+quantTotal)/2;
   while(ini<quantTotal+1){
-    meio = (ini+quantTotal+1)/2;
+    meio = (ini+quantTotal)/2;
     if(strcmp(cadastroVendedores[meio].nome, nomeBuscado) == 0){
       return meio;
     }
