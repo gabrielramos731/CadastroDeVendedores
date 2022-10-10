@@ -77,7 +77,7 @@ int main(void) {
 }
 
 vendedor * cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j){
-  int quantCadastros, i;
+  int quantCadastros, i, k, cont;
 
   printf("Quantos vendedores deseja cadastrar?: ");
   scanf("%d%*c",&quantCadastros);
@@ -94,6 +94,13 @@ vendedor * cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j)
     printf("Informe o cpf do vendedor:");
     scanf("%s%*c", cadastroVendedores[i].cpf);
     fflush(stdin);
+    cont = 0;
+    for(k=0; k<i; k++){
+      if(strcmp(cadastroVendedores[k].cpf, cadastroVendedores[i].cpf) == 0){
+        cont++;
+      }
+    }
+    if(cont == 0){
     printf("Informe a data de nascimento do vendedor, no formato dd/mm/aaaa\n");
     scanf("%s%*c", cadastroVendedores[i].dataDeNascimento);
     fflush(stdin);
@@ -105,8 +112,13 @@ vendedor * cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j)
     fflush(stdin);
     system("cls");
     *j+=1;
+    }
+    else{
+      printf("\nCPF ja existente! Por favor cadastre novamente.\n\n");
+      i--;
+    }
+    
   }
-  
   return cadastroVendedores;
 }
 
@@ -156,7 +168,7 @@ int buscarVendedor(vendedor *cadastroVendedores, int quantTotal, char *nomeBusca
     }
     else if(strcmp(cadastroVendedores[meio].nome, nomeBuscado) < 0)
       ini = meio+1;
-    else if(strcmp(cadastroVendedores[meio].nome, nomeBuscado) > 0){
+    else{
       quantTotal = meio-1;
       printf("%d", meio);
     }
