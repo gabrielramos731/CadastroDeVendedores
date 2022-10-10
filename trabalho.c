@@ -17,7 +17,7 @@ void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal);
 int buscarVendedor(vendedor *cadastroVendedores, int quantTotal, char *nomeBuscado);
 
 int main(void) {
-  int opcao = 0, quantTotal = 0, j = 0, indiceBusca;
+  int opcao = 0, quantTotal = 0, j = 0, i = 0, indiceBusca;
   char nomeBuscado[30];
   vendedor *cadastroVendedores;
 
@@ -59,11 +59,15 @@ int main(void) {
           printf("\nVendedor nao cadastrado!\n\n");
           break;
         }
-        printf("\nNome: %s", cadastroVendedores[indiceBusca].nome);
-        printf("\nCPF: %s", cadastroVendedores[indiceBusca].cpf);
-        printf("\nData de nascimento: %s", cadastroVendedores[indiceBusca].dataDeNascimento);
-        printf("\nSalario base: %.2f", cadastroVendedores[indiceBusca].salarioBase);
-        printf("\ntotal vendido: %.2f\n\n", cadastroVendedores[indiceBusca].totalVendido);
+        i = 0;
+        while(strcmp(cadastroVendedores[indiceBusca].nome, cadastroVendedores[indiceBusca-i].nome) == 0){
+          printf("\nNome: %s", cadastroVendedores[indiceBusca-i].nome);
+          printf("\nCPF: %s", cadastroVendedores[indiceBusca-i].cpf);
+          printf("\nData de nascimento: %s", cadastroVendedores[indiceBusca-i].dataDeNascimento);
+          printf("\nSalario base: %.2f", cadastroVendedores[indiceBusca-i].salarioBase);
+          printf("\ntotal vendido: %.2f\n\n", cadastroVendedores[indiceBusca-i].totalVendido);
+          i++;
+        }
         break;
       case 0:
         printf("\nEncerrando processo!");
