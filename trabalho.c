@@ -59,7 +59,7 @@ int main(void) {
           printf("\nVendedor nao cadastrado!\n\n");
           break;
         }
-        i = 0;
+        i = 0;   //imprime os nomes repetidos
         while(strcmp(cadastroVendedores[indiceBusca].nome, cadastroVendedores[indiceBusca-i].nome) == 0){
           printf("\nNome: %s", cadastroVendedores[indiceBusca-i].nome);
           printf("\nCPF: %s", cadastroVendedores[indiceBusca-i].cpf);
