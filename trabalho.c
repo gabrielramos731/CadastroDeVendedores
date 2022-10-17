@@ -150,6 +150,7 @@ void listarVendedores (vendedor *cadastroVendedores, int quantTotal){
    printf("\ntotal vendido: %.2f\n", cadastroVendedores[i].totalVendido);
   }
 }
+//voltar do meio até o início para pegar o índice e printar pra frente
 
 void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal){
 
