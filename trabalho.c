@@ -177,6 +177,8 @@ void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal){
   }
 }
 
+//buscar até o primeiro repetido e dps ir até o último
+
 int buscarVendedor(vendedor *cadastroVendedores, int quantTotal, char *nomeBuscado){
   int meio, ini = 0;
 
