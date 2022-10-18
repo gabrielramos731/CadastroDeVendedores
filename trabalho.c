@@ -73,9 +73,9 @@ int main(void) {
           printf("\nVendedor nao cadastrado!\n\n");
           break;
         }
-        i = 1;   //imprime os nomes repetidos
+        i = 1;   
         indiceInicial = indiceBusca;
-        while(strcmp(cadastroVendedores[indiceBusca].nome, cadastroVendedores[indiceBusca-i].nome) == 0){
+        while(strcmp(cadastroVendedores[indiceBusca].nome, cadastroVendedores[indiceBusca-i].nome) == 0){   //retorna para o índice do primeiro valor repetido
           indiceInicial--;
           i++;
         }
@@ -88,7 +88,6 @@ int main(void) {
           printf("\ntotal vendido: %.2f\n\n", cadastroVendedores[indiceInicial+i].totalVendido);
           i++;
         }
-
         break;
       case 0:
         free(cadastroVendedores);
