@@ -19,7 +19,7 @@ void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal);
 int buscarVendedor(vendedor *cadastroVendedores, int quantTotal, char *nomeBuscado);
 
 int main(void) {
-  int opcao = 0, quantTotal = 0, j = 0, i = 0, indiceBusca;
+  int opcao = 0, quantTotal = 0, j = 0, i = 0, indiceBusca, indiceInicial = 0;
   char nomeBuscado[30];
   vendedor *cadastroVendedores;
 
@@ -73,13 +73,19 @@ int main(void) {
           printf("\nVendedor nao cadastrado!\n\n");
           break;
         }
-        i = 0;   //imprime os nomes repetidos
-        while(strcmp(cadastroVendedores[indiceBusca].nome, cadastroVendedores[indiceBusca-i].nome) == 0){
-          printf("\nNome: %s", cadastroVendedores[indiceBusca-i].nome);
-          printf("\nCPF: %s", cadastroVendedores[indiceBusca-i].cpf);
-          printf("\nData de nascimento: %s", cadastroVendedores[indiceBusca-i].dataDeNascimento);
-          printf("\nSalario base: %.2f", cadastroVendedores[indiceBusca-i].salarioBase);
-          printf("\ntotal vendido: %.2f\n\n", cadastroVendedores[indiceBusca-i].totalVendido);
+        i = 1;   
+        indiceInicial = indiceBusca;
+        while(strcmp(cadastroVendedores[indiceBusca].nome, cadastroVendedores[indiceBusca-i].nome) == 0){   //retorna para o índice do primeiro valor repetido
+          indiceInicial--;
+          i++;
+        }
+        i = 0;
+        while(strcmp(cadastroVendedores[indiceInicial].nome, cadastroVendedores[indiceInicial+i].nome) == 0){
+          printf("\nNome: %s", cadastroVendedores[indiceInicial+i].nome);
+          printf("\nCPF: %s", cadastroVendedores[indiceInicial+i].cpf);
+          printf("\nData de nascimento: %s", cadastroVendedores[indiceInicial+i].dataDeNascimento);
+          printf("\nSalario base: %.2f", cadastroVendedores[indiceInicial+i].salarioBase);
+          printf("\ntotal vendido: %.2f\n\n", cadastroVendedores[indiceInicial+i].totalVendido);
           i++;
         }
         break;
