@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+int contadorCadastros = 0;
+
 typedef struct{
   char nome[30];
   char cpf[11];
@@ -45,12 +47,24 @@ int main(void) {
         ordenaVendedores(cadastroVendedores, quantTotal);
         break;
       case 2:
+        if(contadorCadastros == 0){
+          printf("\nNenhum vendedor cadastrado!\n\n");
+          break;
+        }
         listarVendedores(cadastroVendedores, quantTotal);
         break;
       case 3:
+        if(contadorCadastros == 0){
+          printf("\nNenhum vendedor cadastrado!\n\n");
+          break;
+        }
         calcularComissoes(cadastroVendedores, quantTotal);
         break;
       case 4:
+        if(contadorCadastros == 0){
+          printf("\nNenhum vendedor cadastrado!\n\n");
+          break;
+        }
         printf("Digite o nome do vendedor que deseja buscar: ");
         fflush(stdin);
         scanf ("%[^\n]%*c", nomeBuscado);
@@ -70,6 +84,7 @@ int main(void) {
         }
         break;
       case 0:
+        free(cadastroVendedores);
         printf("\nEncerrando processo!");
         break;
       default:
@@ -81,8 +96,9 @@ int main(void) {
 }
 
 vendedor * cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j){
+  contadorCadastros = 1;
   int quantCadastros, i, k, cont;
-
+  
   printf("Quantos vendedores deseja cadastrar?: ");
   scanf("%d%*c",&quantCadastros);
   fflush(stdin);
@@ -129,7 +145,7 @@ vendedor * cadastroNovos (vendedor *cadastroVendedores, int *quantTotal, int *j)
 void ordenaVendedores(vendedor *cadastroVendedores, int quantTotal){
   int i, j;
   vendedor auxiliar;
-
+    
   for(i=1; i<quantTotal; i++){
     auxiliar = cadastroVendedores[i];
       for(j=i; (j>0) && (strcmp(auxiliar.nome, cadastroVendedores[j-1].nome)<0); j--){
@@ -150,7 +166,6 @@ void listarVendedores (vendedor *cadastroVendedores, int quantTotal){
    printf("\ntotal vendido: %.2f\n", cadastroVendedores[i].totalVendido);
   }
 }
-//voltar do meio até o início para pegar o índice e printar pra frente
 
 void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal){
 
@@ -161,6 +176,8 @@ void calcularComissoes ( vendedor *cadastroVendedores, int quantTotal){
     printf("%.2f\n\n", cadastroVendedores[i].totalVendido*0.03);
   }
 }
+
+//buscar até o primeiro repetido e dps ir até o último
 
 int buscarVendedor(vendedor *cadastroVendedores, int quantTotal, char *nomeBuscado){
   int meio, ini = 0;
